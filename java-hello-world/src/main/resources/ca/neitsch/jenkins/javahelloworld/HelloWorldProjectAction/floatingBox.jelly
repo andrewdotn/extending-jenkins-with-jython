@@ -1,0 +1,5 @@
+<!-- Normally the root element would be jelly-related
+     This is meant a minimal working example. -->
+<root>
+Hello, world.
+</root>
