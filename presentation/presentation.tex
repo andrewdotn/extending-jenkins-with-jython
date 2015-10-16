@@ -9,6 +9,7 @@
 \usepackage{textcomp}
 \usepackage{tabularx}
 \usepackage{xspace}
+\usepackage{appendixnumberbeamer}
 
 \usepackage{fontspec}
 
@@ -119,6 +120,7 @@ bother?
 \item Multi-configuration builds: different Python versions, library
 versions, platforms, Linux, Windows, and Mac
 \end{itemize}
+\pause
 \alert{These are really valuable things that nobody will consistently do by
 hand!}
 \end{frame}
@@ -175,6 +177,7 @@ deployed on any server, anywhere.”}
 \item \href{https://stripe.com/blog/distributed-ruby-testing}{%
     \structure{Running three hours of Ruby tests in under three minutes}}
 \end{itemize}
+\pause
 Maybe someone will give a talk on useful things Docker can do for Python
 developers?
 \end{frame}
@@ -196,6 +199,116 @@ Jenkins is extremely extensible \\
 \end{columns}
 \end{frame}
 
+\begin{frame}{Use case: Code metrics}
+Would be nice to see things like
+\begin{itemize}
+\item Code coverage rates
+\item Function documentation rates
+\item Style compliance rates
+\item Lines of code
+\item Number of slides in presentation
+\end{itemize}
+All right on the dashboard
+\end{frame}
+
+\begin{frame}{Jenkins is written in Java}
+
+\pause
+\begin{center}
+What about Jython?
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Issues}
+\begin{itemize}
+\item Compile-time annotations and extension discovery
+\pause
+\item Jython scripts can call Java  much more easily than Java can call
+Jython
+\only<2>{
+\end{itemize}
+\sizefont{2}\texttt{%
+PythonInterpreter interpreter = new PythonInterpreter(); \\
+interpreter.exec("from Building import Building"); \\
+buildingClass = interpreter.get("Building"); \\
+PyObject buildingObject = buildingClass.\_\_call\_\_( \\
+\ \ \ \ new PyString(name), PyString(location), \\
+\ \ \ \ new PyString(id)); \\
+return (BuildingType)buildingObject \\
+\ \ \ \ .\_\_tojava\_\_(BuildingType.class);}
+\begin{itemize}
+}
+\pause
+\item Newer tool \href{https://github.com/jythontools/clamp}{\structure{clamp}},
+can only invoke interface methods
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Success}
+PythonWrapper and
+\href{https://github.com/jenkinsci/jenkins.py/tree/master/ppsm}{\structure{ppsm}}
+
+\vspace*{\baselineskip}
+
+\pause
+
+Really well done!
+
+\vspace*{\baselineskip}
+
+\pause
+
+Main development technique:
+\begin{itemize}
+\item View source for existing plugins
+\item And Jenkins source code
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Working example}
+
+See the \texttt{jython-hello-world} directory.
+
+\includegraphics[width=\textwidth]{jython-hello-world.png}
+
+\vspace*{-0.5\baselineskip}
+
+{\sizefont{1}
+\begin{verbatim}
+def hello(job):
+    return job.getName().upper() + "@" + str(time.time())
+...
+<j:jelly xmlns:j="jelly:core">
+  <td>${it.hello(job)}</td>
+</j:jelly>
+...
+@Extension
+public class HelloWorldColumn extends ListViewColumnPW {
+    public String hello(Object o) {
+        return execPython("hello", o).toString();
+    }
+}
+\end{verbatim}
+}
+
+\end{frame}
+
+\begin{frame}{Still need to learn guts}
+\begin{itemize}
+\item Jelly XML-based template/data-binding language
+\item Java data model
+\end{itemize}
+\pause
+
+\begin{center}
+Writing a whole plugin in Python \\ doesn’t feel like a net win \\
+\pause
+but calling a Python library \\ from Java definitely could be
+\end{center}
+
+\end{frame}
 
 \section{Conclusions}
 
@@ -212,9 +325,11 @@ hand: multiple Python versions, multiple platforms, every commit, every day
 anywhere
 \pause
 \item You can extend Jenkins with Jython ...
-\pause but it’s probably not worth it
+\pause but there will still be a lot of Java.
 \end{itemize}
 \end{frame}
+
+\appendix
 
 \begin{frame}
 \adjustbox{width=0.5\paperwidth,center}{\structure{Questions?}}
