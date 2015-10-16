@@ -137,6 +137,25 @@ versions, platforms, Linux, Windows, and Mac
 hand!}
 \end{frame}
 
+\begin{frame}[fragile]{Code for Python 2 and 3}
+\sizefont{2}
+\begin{verbatim}
+from __future__ import print_function
+
+import sys
+import unittest
+
+class TestStringMethods(unittest.TestCase):
+
+  def test_upper(self):
+      self.assertEqual('foo'.upper(), 'FOO')
+
+if __name__ == '__main__':
+    print(sys.version)
+    unittest.main()
+\end{verbatim}
+\end{frame}
+
 \begin{frame}[plain]{}
 \includegraphics[width=\paperwidth,frame,center]{hello-4-multi-config.png}
 \end{frame}
