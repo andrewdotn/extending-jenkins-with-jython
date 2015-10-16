@@ -1,0 +1,45 @@
+[base-debuginfo]
+name=CentOS-7 - Debuginfo
+baseurl=http://debuginfo.centos.org/7/$basearch/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-7
+gpgcheck=1
+[epel]
+name=Extra Packages for Enterprise Linux $releasever - $basearch
+baseurl=http://mirrors.kernel.org/fedora-epel/$releasever/$basearch
+gpgkey=https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
+gpgcheck=1
+[extras]
+name=CentOS-$releasever - extras
+baseurl=https://mirrors.kernel.org/centos/$releasever/extras/$basearch/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+gpgcheck=1
+[extras-source]
+name=CentOS-$releasever - extras Sources
+baseurl=http://vault.centos.org/centos/$releasever/extras/Source/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+gpgcheck=1
+[os]
+name=CentOS-$releasever - os
+baseurl=https://mirrors.kernel.org/centos/$releasever/os/$basearch/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+gpgcheck=1
+[os-source]
+name=CentOS-$releasever - os Sources
+baseurl=http://vault.centos.org/centos/$releasever/os/Source/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+gpgcheck=1
+[updates]
+name=CentOS-$releasever - updates
+baseurl=https://mirrors.kernel.org/centos/$releasever/updates/$basearch/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+gpgcheck=1
+[updates-source]
+name=CentOS-$releasever - updates Sources
+baseurl=http://vault.centos.org/centos/$releasever/updates/Source/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+gpgcheck=1
+[jenkins]
+name=Jenkins
+baseurl=http://pkg.jenkins-ci.org/redhat/
+gpgkey=https://jenkins-ci.org/redhat/jenkins-ci.org.key
+gpgcheck=1

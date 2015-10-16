@@ -1,0 +1,48 @@
+#!/bin/bash
+setenforce 0
+
+if ! [ -f /etc/yum.repos.d/repo.repo ] ; then
+    rm -f /etc/yum.repos.d/*.repo
+    cp /vagrant/repo.repo /etc/yum.repos.d
+    yum clean all
+fi
+
+for F in docker jenkins vim-enhanced python34; do
+    if ! rpm -q $F; then
+        yum install -y $F
+    fi
+done
+
+if ! rpm -q jdk1.8.0_60; then
+    # http://stackoverflow.com/a/10959815/14558
+    wget --continue --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u60-b27/jdk-8u60-linux-x64.rpm
+    rpm -ip jdk-8u60-linux-x64.rpm
+fi
+
+service docker start
+# A real system would create a docker group, chown the socket to that
+# group, and add users who should have access to docker into that group.
+sudo chmod a+rw /var/run/docker.sock
+
+mkdir -p $HOME/hello
+echo '#/bin/bash
+echo hello, world' > $HOME/hello/hi
+chmod +x $HOME/hello/hi
+docker run --rm -v $HOME/hello:/hello:ro centos:centos7 bash /hello/hi
+
+service jenkins start
+service firewalld stop
+
+echo
+echo Jenkins should now be starting at
+echo
+
+printf "http://%s:8080/\n" "$( \
+    for F in $(ip link | grep '^[^ ]' | grep -v docker \
+        | awk '{print $2}')
+        do
+            ip addr show dev $F \
+                | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' \
+                | grep -v '255$' | grep -v 127.0.0.1
+        done)"
+echo

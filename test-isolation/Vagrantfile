@@ -1,0 +1,5 @@
+Vagrant.configure(2) do |config|
+  # These boxes are hard to use for development work because all the
+  # man pages are stripped out.
+  config.vm.box = "bento/centos-7.1"
+end
