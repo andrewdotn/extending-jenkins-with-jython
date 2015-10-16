@@ -197,7 +197,27 @@ deployed on any server, anywhere.”}
 \end{center}
 \end{frame}
 
-\begin{frame}{Testing using docker}
+\begin{frame}{Test isolation using docker}
+\begin{itemize}
+\item Vagrantfile and setup script in \texttt{test-isolation}
+\end{itemize}
+\pause
+\texttt{\ \ docker run --rm \textbackslash} \\
+\only<2>{Run a container, and clean up afterwards}
+\pause
+\texttt{\ \ \ \ -v /vagrant:/foo:ro \textbackslash} \\
+\only<3>{Map a directory into the container, read-only}
+\pause
+\texttt{\ \ \ \ centos:centos7 \textbackslash} \\
+\only<4>{Use the stock upstream container image}
+\pause
+\texttt{\ \ \ \ python /foo/foo.py} \\
+\only<5>{And run the tests in the container.}
+\pause
+\end{frame}
+
+\begin{frame}[plain]{}
+\includegraphics[width=\paperwidth,frame,center]{docker-output.png}
 \end{frame}
 
 \begin{frame}{More examples}
@@ -356,8 +376,6 @@ anywhere
 \pause but there will still be a lot of Java.
 \end{itemize}
 \end{frame}
-
-\appendix
 
 \begin{frame}
 \adjustbox{width=0.5\paperwidth,center}{\structure{Questions?}}
